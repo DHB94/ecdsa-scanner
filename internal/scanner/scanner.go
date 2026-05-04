@@ -437,8 +437,9 @@ func (s *Scanner) handleCollision(event CollisionEvent) {
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	s.logger.Info("[COLLISION] R=%s... TX1=%s (chain %d) TX2=%s (chain %d)",
-		event.RValue[:18], event.FirstTxRef.TxHash[:18], event.FirstTxRef.ChainID,
+	conf, verdict := scoreCollisionAI(event)
+	s.logger.Info("[COLLISION][AI=%s %.2f] R=%s... TX1=%s (chain %d) TX2=%s (chain %d)",
+		verdict, conf, event.RValue[:18], event.FirstTxRef.TxHash[:18], event.FirstTxRef.ChainID,
 		event.NewTxHash[:18], event.NewChainID)
 
 	// Fetch full transaction data from RPC
@@ -550,8 +551,8 @@ func (s *Scanner) attemptSameKeyRecovery(ctx context.Context, event CollisionEve
 	}
 
 	// Verify
-	if !recovery.VerifyPrivateKey(privKey, tx1.From) {
-		s.logger.Error("[RECOVERY] Verification failed - recovered key doesn't match address")
+	if !recovery.VerifyRecoveredPair(privKey, tx1.Z, tx1.R, tx1.S, tx2.Z, tx2.R, tx2.S, tx1.From) {
+		s.logger.Error("[RECOVERY] Full verification failed (address and nonce consistency)")
 		return
 	}
 
@@ -699,4 +700,27 @@ func (s *Scanner) StopChainByName(name string) {
 	if cfg != nil {
 		s.StopChain(cfg.ChainID)
 	}
+}
+
+func scoreCollisionAI(event CollisionEvent) (float64, string) {
+	score := 0.55
+	if event.NewChainID == event.FirstTxRef.ChainID {
+		score += 0.25
+	}
+	if strings.EqualFold(event.NewAddress, "") {
+		score -= 0.1
+	}
+	if strings.EqualFold(event.NewTxHash, event.FirstTxRef.TxHash) {
+		score = 0.05
+	}
+	if score > 0.95 {
+		score = 0.95
+	}
+	if score >= 0.8 {
+		return score, "high-confidence"
+	}
+	if score >= 0.6 {
+		return score, "medium-confidence"
+	}
+	return score, "low-confidence"
 }
