@@ -17,9 +17,9 @@ tailscale_tailnet = "example.ts.net"
 # PostgreSQL password for ecdsa_scanner user
 postgres_password = "your-secure-password-here"
 
-# Ankr API key (optional, for higher rate limits)
-# Get from: https://www.ankr.com/rpc/
-ankr_api_key = ""
+# Infura API key (optional, for higher rate limits)
+# Get from: https://www.infura.io/
+infura_api_key = ""
 
 # Region (optional)
 region = "nyc1"

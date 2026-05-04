@@ -47,13 +47,13 @@ func main() {
 	}
 
 	// Initialize scanner
-	sc, err := scanner.New(database, appLogger, cfg.AnkrAPIKey, notifier)
+	sc, err := scanner.New(database, appLogger, cfg.InfuraAPIKey, notifier)
 	if err != nil {
 		log.Fatalf("Scanner error: %v", err)
 	}
 
 	// Initialize API
-	handler := api.NewHandler(sc, database, appLogger, cfg.AnkrAPIKey, notifier)
+	handler := api.NewHandler(sc, database, appLogger, cfg.InfuraAPIKey, notifier)
 	mux := http.NewServeMux()
 	handler.RegisterRoutes(mux)
 

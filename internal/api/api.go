@@ -47,21 +47,21 @@ type ChainHealth struct {
 
 // Handler holds HTTP handler dependencies
 type Handler struct {
-	scanner    *scanner.Scanner
-	db         db.Database
-	logger     *logger.Logger
-	ankrAPIKey string
-	notifier   *notify.Notifier
+	scanner      *scanner.Scanner
+	db           db.Database
+	logger       *logger.Logger
+	infuraAPIKey string
+	notifier     *notify.Notifier
 }
 
 // NewHandler creates a new API handler
-func NewHandler(s *scanner.Scanner, database db.Database, log *logger.Logger, ankrAPIKey string, notifier *notify.Notifier) *Handler {
+func NewHandler(s *scanner.Scanner, database db.Database, log *logger.Logger, infuraAPIKey string, notifier *notify.Notifier) *Handler {
 	return &Handler{
-		scanner:    s,
-		db:         database,
-		logger:     log,
-		ankrAPIKey: ankrAPIKey,
-		notifier:   notifier,
+		scanner:      s,
+		db:           database,
+		logger:       log,
+		infuraAPIKey: infuraAPIKey,
+		notifier:     notifier,
 	}
 }
 
@@ -157,8 +157,8 @@ func (h *Handler) handleCollisions(w http.ResponseWriter, r *http.Request) {
 
 	// Enrich with chain names
 	type EnrichedCollision struct {
-		RValue  string `json:"r_value"`
-		TxRefs  []struct {
+		RValue string `json:"r_value"`
+		TxRefs []struct {
 			TxHash    string `json:"tx_hash"`
 			ChainID   int    `json:"chain_id"`
 			ChainName string `json:"chain_name"`
@@ -240,8 +240,8 @@ func (h *Handler) getBalance(ctx context.Context, address string, chainID int) (
 	}
 
 	rpcURL := cfg.RPCURL
-	if h.ankrAPIKey != "" && strings.Contains(rpcURL, "ankr.com") {
-		rpcURL = rpcURL + "/" + h.ankrAPIKey
+	if h.infuraAPIKey != "" && strings.Contains(rpcURL, "infura.io") {
+		rpcURL = rpcURL + "/" + h.infuraAPIKey
 	}
 
 	client, err := ethclient.DialContext(ctx, rpcURL)
@@ -261,7 +261,7 @@ func weiToEth(wei *big.Int) string {
 	// Convert to float: wei / 1e18
 	fWei := new(big.Float).SetInt(wei)
 	ethValue := new(big.Float).Quo(fWei, big.NewFloat(1e18))
-	
+
 	// Format with up to 6 decimal places, trim trailing zeros
 	text := ethValue.Text('f', 6)
 	// Trim trailing zeros after decimal point

@@ -59,7 +59,7 @@ curl -fsSL https://raw.githubusercontent.com/fegge/ecdsa-scanner/main/deploy/sin
   sudo bash -s -- \
     --tailscale-key tskey-auth-xxxxx \
     --hostname my-scanner \
-    --ankr-key your-ankr-api-key \
+    --infura-key your-infura-api-key \
     --port 8000
 ```
 
@@ -97,7 +97,7 @@ psql postgres://ecdsa_scanner:PASSWORD@localhost:5432/ecdsa_scanner
 | `--tailscale-key` | Yes* | Tailscale auth key |
 | `--hostname` | No | Tailscale hostname (default: `ecdsa-scanner`) |
 | `--postgres-password` | No | PostgreSQL password (auto-generated if not provided) |
-| `--ankr-key` | No | Ankr API key for better RPC access |
+| `--infura-key` | No | Infura API key for better RPC access |
 | `--port` | No | Web UI port (default: `8000`) |
 | `--skip-tailscale` | No | Skip Tailscale (testing only, insecure) |
 
