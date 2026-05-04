@@ -38,7 +38,7 @@ resource "digitalocean_droplet" "scanner" {
   user_data = templatefile("${path.module}/cloud-init-scanner.yaml", {
     tailscale_auth_key = var.tailscale_auth_key
     postgres_password  = var.postgres_password
-    ankr_api_key       = var.ankr_api_key
+    infura_api_key       = var.infura_api_key
     db_tailscale_name  = "ecdsa-scanner-db"
     tailscale_tailnet  = var.tailscale_tailnet
   })
