@@ -79,12 +79,12 @@ type Scanner struct {
 	mu              sync.RWMutex
 	collisionChan   chan CollisionEvent
 	recoveryEnabled bool
-	infuraAPIKey    string
+	alchemyAPIKey   string
 	systemAddresses map[string]bool
 }
 
 // New creates a new Scanner
-func New(database db.Database, log *logger.Logger, infuraAPIKey string, notifier *notify.Notifier) (*Scanner, error) {
+func New(database db.Database, log *logger.Logger, alchemyAPIKey string, notifier *notify.Notifier) (*Scanner, error) {
 	s := &Scanner{
 		db:              database,
 		logger:          log,
@@ -92,7 +92,7 @@ func New(database db.Database, log *logger.Logger, infuraAPIKey string, notifier
 		chainScanners:   make(map[int]*ChainScanner),
 		collisionChan:   make(chan CollisionEvent, 10000),
 		recoveryEnabled: true,
-		infuraAPIKey:    infuraAPIKey,
+		alchemyAPIKey:   alchemyAPIKey,
 		systemAddresses: config.SystemAddresses(),
 	}
 
@@ -134,8 +134,8 @@ func New(database db.Database, log *logger.Logger, infuraAPIKey string, notifier
 }
 
 func (s *Scanner) buildRPCURL(baseURL string) string {
-	if s.infuraAPIKey != "" && strings.Contains(baseURL, "infura.io") {
-		return baseURL + "/" + s.infuraAPIKey
+	if s.alchemyAPIKey != "" && strings.Contains(baseURL, "g.alchemy.com") {
+		return baseURL + "/" + s.alchemyAPIKey
 	}
 	return baseURL
 }

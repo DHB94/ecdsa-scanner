@@ -14,7 +14,7 @@ write_files:
     permissions: '0600'
     content: |
       DATABASE_URL=postgres://ecdsa_scanner:${postgres_password}@${db_tailscale_name}.${tailscale_tailnet}:5432/ecdsa_scanner
-      INFURA_API_KEY=${infura_api_key}
+      ALCHEMY_API_KEY=${alchemy_api_key}
       PORT=8000
       BIND_ADDRS=0.0.0.0
 

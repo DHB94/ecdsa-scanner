@@ -35,7 +35,7 @@ curl -fsSL https://raw.githubusercontent.com/fegge/ecdsa-scanner/main/deploy/sin
   sudo bash -s -- \
     --tailscale-key tskey-auth-xxxxx \
     --hostname my-scanner \
-    --infura-key YOUR_INFURA_KEY \
+    --alchemy-key YOUR_ALCHEMY_KEY \
     --port 8000
 ```
 
@@ -134,7 +134,7 @@ mosh root@ecdsa-scanner-app
 | `tailscale_auth_key` | Yes | Tailscale auth key |
 | `tailscale_tailnet` | Yes | Your tailnet (e.g., `example.ts.net`) |
 | `postgres_password` | Yes | PostgreSQL password |
-| `infura_api_key` | No | Infura API key for RPC |
+| `alchemy_api_key` | No | Alchemy API key for RPC |
 | `region` | No | DO region (default: `nyc1`) |
 | `scanner_size` | No | Scanner droplet size (default: `s-1vcpu-1gb`) |
 | `db_size` | No | Database droplet size (default: `s-1vcpu-2gb`) |

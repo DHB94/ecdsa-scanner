@@ -17,9 +17,9 @@ tailscale_tailnet = "example.ts.net"
 # PostgreSQL password for ecdsa_scanner user
 postgres_password = "your-secure-password-here"
 
-# Infura API key (optional, for higher rate limits)
-# Get from: https://www.infura.io/
-infura_api_key = ""
+# Alchemy API key (optional, for higher rate limits)
+# Get from: https://www.alchemy.com/
+alchemy_api_key = ""
 
 # Region (optional)
 region = "nyc1"

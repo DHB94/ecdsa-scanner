@@ -39,8 +39,8 @@ variable "postgres_password" {
   sensitive   = true
 }
 
-variable "infura_api_key" {
-  description = "Infura API key for RPC access (optional)"
+variable "alchemy_api_key" {
+  description = "Alchemy API key for RPC access (optional)"
   type        = string
   default     = ""
   sensitive   = true
