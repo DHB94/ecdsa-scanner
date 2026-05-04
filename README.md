@@ -84,7 +84,7 @@ Open http://localhost:8000 to view the dashboard.
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes* | PostgreSQL connection string |
-| `INFURA_API_KEY` | No | Infura API key for higher rate limits |
+| `ALCHEMY_API_KEY` | No | Alchemy API key for higher rate limits |
 | `PORT` | No | HTTP server port (default: 8000) |
 | `BIND_ADDRS` | No | Bind addresses, comma-separated (default: 0.0.0.0) |
 
@@ -94,7 +94,7 @@ Open http://localhost:8000 to view the dashboard.
 
 ```bash
 DATABASE_URL=postgres://user:password@host:5432/ecdsa_scanner?sslmode=require
-INFURA_API_KEY=your-api-key-here
+ALCHEMY_API_KEY=your-api-key-here
 PORT=8000
 BIND_ADDRS=127.0.0.1
 ```

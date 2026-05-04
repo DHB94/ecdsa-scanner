@@ -7,7 +7,7 @@ import (
 // Config holds all application configuration
 type Config struct {
 	DatabaseURL      string
-	InfuraAPIKey     string
+	AlchemyAPIKey    string
 	Port             string
 	BindAddrs        string
 	PushoverAppToken string
@@ -47,7 +47,7 @@ func ChainByName(name string) *ChainConfig {
 func Load() *Config {
 	cfg := &Config{
 		DatabaseURL:      os.Getenv("DATABASE_URL"),
-		InfuraAPIKey:     os.Getenv("INFURA_API_KEY"),
+		AlchemyAPIKey:    os.Getenv("ALCHEMY_API_KEY"),
 		Port:             os.Getenv("PORT"),
 		BindAddrs:        os.Getenv("BIND_ADDRS"),
 		PushoverAppToken: os.Getenv("PUSHOVER_APP_TOKEN"),
@@ -67,13 +67,13 @@ func Load() *Config {
 // DefaultChains returns the list of chains to scan
 func DefaultChains() []ChainConfig {
 	return []ChainConfig{
-		{Name: "Ethereum", ChainID: 1, RPCURL: "https://mainnet.infura.io/v3", ExplorerURL: "https://etherscan.io", Enabled: true},
-		{Name: "Polygon", ChainID: 137, RPCURL: "https://polygon-mainnet.infura.io/v3", ExplorerURL: "https://polygonscan.com", Enabled: true},
-		{Name: "Arbitrum", ChainID: 42161, RPCURL: "https://arbitrum-mainnet.infura.io/v3", ExplorerURL: "https://arbiscan.io", Enabled: true},
-		{Name: "Avalanche", ChainID: 43114, RPCURL: "https://avalanche-mainnet.infura.io/v3", ExplorerURL: "https://snowtrace.io", Enabled: true},
-		{Name: "Optimism", ChainID: 10, RPCURL: "https://optimism-mainnet.infura.io/v3", ExplorerURL: "https://optimistic.etherscan.io", Enabled: true},
-		{Name: "Base", ChainID: 8453, RPCURL: "https://base-mainnet.infura.io/v3", ExplorerURL: "https://basescan.org", Enabled: true},
-		{Name: "Linea", ChainID: 59144, RPCURL: "https://linea-mainnet.infura.io/v3", ExplorerURL: "https://lineascan.build", Enabled: true},
+		{Name: "Ethereum", ChainID: 1, RPCURL: "https://eth-mainnet.g.alchemy.com/v2", ExplorerURL: "https://etherscan.io", Enabled: true},
+		{Name: "Polygon", ChainID: 137, RPCURL: "https://polygon-mainnet.g.alchemy.com/v2", ExplorerURL: "https://polygonscan.com", Enabled: true},
+		{Name: "Arbitrum", ChainID: 42161, RPCURL: "https://arb-mainnet.g.alchemy.com/v2", ExplorerURL: "https://arbiscan.io", Enabled: true},
+		{Name: "Avalanche", ChainID: 43114, RPCURL: "https://avax-mainnet.g.alchemy.com/v2", ExplorerURL: "https://snowtrace.io", Enabled: true},
+		{Name: "Optimism", ChainID: 10, RPCURL: "https://opt-mainnet.g.alchemy.com/v2", ExplorerURL: "https://optimistic.etherscan.io", Enabled: true},
+		{Name: "Base", ChainID: 8453, RPCURL: "https://base-mainnet.g.alchemy.com/v2", ExplorerURL: "https://basescan.org", Enabled: true},
+		{Name: "Linea", ChainID: 59144, RPCURL: "https://linea-mainnet.g.alchemy.com/v2", ExplorerURL: "https://lineascan.build", Enabled: true},
 	}
 }
 

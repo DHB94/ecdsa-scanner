@@ -47,21 +47,21 @@ type ChainHealth struct {
 
 // Handler holds HTTP handler dependencies
 type Handler struct {
-	scanner      *scanner.Scanner
-	db           db.Database
-	logger       *logger.Logger
-	infuraAPIKey string
-	notifier     *notify.Notifier
+	scanner       *scanner.Scanner
+	db            db.Database
+	logger        *logger.Logger
+	alchemyAPIKey string
+	notifier      *notify.Notifier
 }
 
 // NewHandler creates a new API handler
-func NewHandler(s *scanner.Scanner, database db.Database, log *logger.Logger, infuraAPIKey string, notifier *notify.Notifier) *Handler {
+func NewHandler(s *scanner.Scanner, database db.Database, log *logger.Logger, alchemyAPIKey string, notifier *notify.Notifier) *Handler {
 	return &Handler{
-		scanner:      s,
-		db:           database,
-		logger:       log,
-		infuraAPIKey: infuraAPIKey,
-		notifier:     notifier,
+		scanner:       s,
+		db:            database,
+		logger:        log,
+		alchemyAPIKey: alchemyAPIKey,
+		notifier:      notifier,
 	}
 }
 
@@ -240,8 +240,8 @@ func (h *Handler) getBalance(ctx context.Context, address string, chainID int) (
 	}
 
 	rpcURL := cfg.RPCURL
-	if h.infuraAPIKey != "" && strings.Contains(rpcURL, "infura.io") {
-		rpcURL = rpcURL + "/" + h.infuraAPIKey
+	if h.alchemyAPIKey != "" && strings.Contains(rpcURL, "g.alchemy.com") {
+		rpcURL = rpcURL + "/" + h.alchemyAPIKey
 	}
 
 	client, err := ethclient.DialContext(ctx, rpcURL)
