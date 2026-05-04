@@ -27,7 +27,7 @@ error() { echo -e "${RED}[ERROR]${NC} $1" >&2; exit 1; }
 TAILSCALE_AUTH_KEY=""
 HOSTNAME="ecdsa-scanner"
 POSTGRES_PASSWORD=""
-ANKR_API_KEY=""
+INFURA_API_KEY=""
 PORT=8000
 SKIP_TAILSCALE=false
 
@@ -46,8 +46,8 @@ while [[ $# -gt 0 ]]; do
             POSTGRES_PASSWORD="$2"
             shift 2
             ;;
-        --ankr-key)
-            ANKR_API_KEY="$2"
+        --infura-key)
+            INFURA_API_KEY="$2"
             shift 2
             ;;
         --port)
@@ -65,7 +65,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --tailscale-key KEY    Tailscale auth key (required unless --skip-tailscale)"
             echo "  --hostname NAME        Tailscale hostname (default: ecdsa-scanner)"
             echo "  --postgres-password PW PostgreSQL password (auto-generated if not provided)"
-            echo "  --ankr-key KEY         Ankr API key for RPC access (optional)"
+            echo "  --infura-key KEY         Infura API key for RPC access (optional)"
             echo "  --port PORT            Web UI port (default: 8000)"
             echo "  --skip-tailscale       Skip Tailscale setup (for testing only)"
             echo "  --help                 Show this help message"
@@ -230,7 +230,7 @@ cp -r static /opt/ecdsa-scanner/
 # Create environment file
 cat > /opt/ecdsa-scanner/.env <<EOF
 DATABASE_URL=postgres://ecdsa_scanner:$POSTGRES_PASSWORD@localhost:5432/ecdsa_scanner
-ANKR_API_KEY=$ANKR_API_KEY
+INFURA_API_KEY=$INFURA_API_KEY
 PORT=$PORT
 BIND_ADDRS=0.0.0.0
 EOF

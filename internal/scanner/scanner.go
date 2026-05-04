@@ -38,11 +38,11 @@ type RPCBlock struct {
 
 // CollisionEvent is sent when a collision is detected
 type CollisionEvent struct {
-	RValue      string
-	NewTxHash   string
-	NewChainID  int
-	NewAddress  string
-	FirstTxRef  db.TxRef
+	RValue     string
+	NewTxHash  string
+	NewChainID int
+	NewAddress string
+	FirstTxRef db.TxRef
 }
 
 // ChainStats holds statistics for a single chain
@@ -58,16 +58,16 @@ type ChainStats struct {
 
 // ChainScanner handles scanning for a single chain
 type ChainScanner struct {
-	config          config.ChainConfig
-	client          *rpc.Client
-	ethClient       *ethclient.Client
-	running         bool
-	stopChan        chan struct{}
-	mu              sync.Mutex
-	stats           ChainStats
-	errCount        int
-	lastNewBlockAt  time.Time     // when we last saw a new block from the chain
-	estBlockTime    time.Duration // estimated block time based on observations
+	config         config.ChainConfig
+	client         *rpc.Client
+	ethClient      *ethclient.Client
+	running        bool
+	stopChan       chan struct{}
+	mu             sync.Mutex
+	stats          ChainStats
+	errCount       int
+	lastNewBlockAt time.Time     // when we last saw a new block from the chain
+	estBlockTime   time.Duration // estimated block time based on observations
 }
 
 // Scanner coordinates scanning across all chains
@@ -79,12 +79,12 @@ type Scanner struct {
 	mu              sync.RWMutex
 	collisionChan   chan CollisionEvent
 	recoveryEnabled bool
-	ankrAPIKey      string
+	infuraAPIKey    string
 	systemAddresses map[string]bool
 }
 
 // New creates a new Scanner
-func New(database db.Database, log *logger.Logger, ankrAPIKey string, notifier *notify.Notifier) (*Scanner, error) {
+func New(database db.Database, log *logger.Logger, infuraAPIKey string, notifier *notify.Notifier) (*Scanner, error) {
 	s := &Scanner{
 		db:              database,
 		logger:          log,
@@ -92,7 +92,7 @@ func New(database db.Database, log *logger.Logger, ankrAPIKey string, notifier *
 		chainScanners:   make(map[int]*ChainScanner),
 		collisionChan:   make(chan CollisionEvent, 10000),
 		recoveryEnabled: true,
-		ankrAPIKey:      ankrAPIKey,
+		infuraAPIKey:    infuraAPIKey,
 		systemAddresses: config.SystemAddresses(),
 	}
 
@@ -134,8 +134,8 @@ func New(database db.Database, log *logger.Logger, ankrAPIKey string, notifier *
 }
 
 func (s *Scanner) buildRPCURL(baseURL string) string {
-	if s.ankrAPIKey != "" && strings.Contains(baseURL, "ankr.com") {
-		return baseURL + "/" + s.ankrAPIKey
+	if s.infuraAPIKey != "" && strings.Contains(baseURL, "infura.io") {
+		return baseURL + "/" + s.infuraAPIKey
 	}
 	return baseURL
 }
