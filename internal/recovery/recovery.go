@@ -166,3 +166,13 @@ func GetAddressFromPrivateKey(privKeyHex string) (string, error) {
 	addr := crypto.PubkeyToAddress(privKey.PublicKey)
 	return addr.Hex(), nil
 }
+
+// VerifyRecoveredPair checks a recovered key against both signatures and nonce consistency.
+func VerifyRecoveredPair(privKeyHex string, z1, r1, s1, z2, r2, s2 *big.Int, expectedAddr string) bool {
+	if !VerifyPrivateKey(privKeyHex, expectedAddr) {
+		return false
+	}
+	k1 := DeriveNonce(z1, r1, s1, privKeyHex)
+	k2 := DeriveNonce(z2, r2, s2, privKeyHex)
+	return strings.EqualFold(k1, k2)
+}

@@ -28,16 +28,12 @@ func main() {
 	var database db.Database
 	var err error
 
-	if cfg.DatabaseURL == "" {
-		appLogger.Warn("DATABASE_URL not set - running in demo mode")
-		database = db.NewMockWithSampleData()
-	} else {
-		database, err = db.New(cfg.DatabaseURL)
-		if err != nil {
-			log.Fatalf("Database error: %v", err)
-		}
-		appLogger.Info("Connected to database")
+	csvPath := os.Getenv("HITS_CSV_DIR")
+	database, err = db.NewCSV(csvPath)
+	if err != nil {
+		log.Fatalf("CSV storage error: %v", err)
 	}
+	appLogger.Info("Using CSV hit storage")
 	defer database.Close()
 
 	// Initialize notifier
